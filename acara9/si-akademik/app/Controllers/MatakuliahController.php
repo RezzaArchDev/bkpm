@@ -31,7 +31,7 @@ class MatakuliahController
 
         if ($data['kode'] === '' || $data['nama'] === '' || $data['sks'] < 1 || $data['prodi_id'] < 1) {
             $_SESSION['flash'] = ['type' => 'danger', 'message' => 'Semua kolom wajib diisi dengan benar'];
-            header('Location: /acara9/si-akademik/public/matakuliah/create');
+            header('Location: /bkpm/acara9/si-akademik/public/matakuliah/create');
             exit;
         }
 
@@ -39,12 +39,12 @@ class MatakuliahController
             (new MatakuliahModel())->create($data);
         } catch (PDOException $e) {
             $_SESSION['flash'] = ['type' => 'danger', 'message' => 'Gagal menyimpan: kode mata kuliah sudah dipakai'];
-            header('Location: /acara9/si-akademik/public/matakuliah/create');
+            header('Location: /bkpm/acara9/si-akademik/public/matakuliah/create');
             exit;
         }
 
         $_SESSION['flash'] = ['type' => 'success', 'message' => 'Mata kuliah berhasil ditambahkan'];
-        header('Location: /acara9/si-akademik/public/matakuliah');
+        header('Location: /bkpm/acara9/si-akademik/public/matakuliah');
         exit;
     }
 
@@ -70,7 +70,7 @@ class MatakuliahController
 
         if ($data['kode'] === '' || $data['nama'] === '' || $data['sks'] < 1 || $data['prodi_id'] < 1) {
             $_SESSION['flash'] = ['type' => 'danger', 'message' => 'Semua kolom wajib diisi dengan benar'];
-            header("Location: /acara9/si-akademik/public/matakuliah/{$id}/edit");
+            header("Location: /bkpm/acara9/si-akademik/public/matakuliah/{$id}/edit");
             exit;
         }
 
@@ -78,12 +78,12 @@ class MatakuliahController
             (new MatakuliahModel())->update($id, $data);
         } catch (PDOException $e) {
             $_SESSION['flash'] = ['type' => 'danger', 'message' => 'Gagal mengubah: kode mata kuliah sudah dipakai'];
-            header("Location: /acara9/si-akademik/public/matakuliah/{$id}/edit");
+            header("Location: /bkpm/acara9/si-akademik/public/matakuliah/{$id}/edit");
             exit;
         }
 
         $_SESSION['flash'] = ['type' => 'success', 'message' => 'Mata kuliah berhasil diubah'];
-        header('Location: /acara9/si-akademik/public/matakuliah');
+        header('Location: /bkpm/acara9/si-akademik/public/matakuliah');
         exit;
     }
 
@@ -92,7 +92,7 @@ class MatakuliahController
         (new MatakuliahModel())->delete($id);
 
         $_SESSION['flash'] = ['type' => 'success', 'message' => 'Mata kuliah berhasil dihapus'];
-        header('Location: /acara9/si-akademik/public/matakuliah');
+        header('Location: /bkpm/acara9/si-akademik/public/matakuliah');
         exit;
     }
 

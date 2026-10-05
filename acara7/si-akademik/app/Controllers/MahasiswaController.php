@@ -40,6 +40,6 @@ class MahasiswaController
         echo "<p>" . htmlspecialchars("{$mhs['nim']} - {$mhs['nama']} ({$mhs['prodi']})") . "</p>";
         echo "<p>Email: " . htmlspecialchars($mhs['email']) . "</p>";
         echo "<p>Angkatan: " . htmlspecialchars($mhs['angkatan']) . "</p>";
-        echo "<a href='/acara7/si-akademik/public/mahasiswa'>Kembali</a>";
+        echo "<a href='/bkpm/acara7/si-akademik/public/mahasiswa'>Kembali</a>";
     }
 }

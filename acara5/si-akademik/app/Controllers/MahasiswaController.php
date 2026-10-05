@@ -47,7 +47,7 @@ class MahasiswaController
         echo "<h1>Detail Mahasiswa (ID: {$id})</h1>";
         echo "<p>" . htmlspecialchars($mhs->getLabel()) . "</p>";
         echo "<p>Angkatan: " . htmlspecialchars($mhs->getAngkatan()) . "</p>";
-        echo "<a href='/acara5/si-akademik/public/mahasiswa'>Kembali</a>";
+        echo "<a href='/bkpm/acara5/si-akademik/public/mahasiswa'>Kembali</a>";
     }
     // ===== AKHIR TUGAS MANDIRI =====
 }

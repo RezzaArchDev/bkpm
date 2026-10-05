@@ -6,7 +6,7 @@
             <div class="alert alert-danger"><?= htmlspecialchars($error) ?></div>
         <?php endif; ?>
 
-        <form action="/acara7/si-akademik/public/login" method="POST">
+        <form action="/bkpm/acara7/si-akademik/public/login" method="POST">
             <div class="mb-3">
                 <label class="form-label">Username</label>
                 <input type="text" name="username" class="form-control" required>

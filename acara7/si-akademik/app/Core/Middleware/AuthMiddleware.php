@@ -11,7 +11,7 @@ class AuthMiddleware
         }
 
         if (empty($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
-            header('Location: /acara7/si-akademik/public/login');
+            header('Location: /bkpm/acara7/si-akademik/public/login');
             exit;
         }
     }

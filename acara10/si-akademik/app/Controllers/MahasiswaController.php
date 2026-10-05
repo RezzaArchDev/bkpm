@@ -43,14 +43,14 @@ class MahasiswaController extends BaseController
             $this->repo->create($mhs);
         } catch (InvalidArgumentException $e) {
             $_SESSION['flash'] = ['type' => 'danger', 'message' => $e->getMessage()];
-            $this->redirect('/acara10/si-akademik/public/mahasiswa/create');
+            $this->redirect('/bkpm/acara10/si-akademik/public/mahasiswa/create');
         } catch (PDOException $e) {
             $_SESSION['flash'] = ['type' => 'danger', 'message' => 'Gagal menyimpan: NIM sudah terdaftar'];
-            $this->redirect('/acara10/si-akademik/public/mahasiswa/create');
+            $this->redirect('/bkpm/acara10/si-akademik/public/mahasiswa/create');
         }
 
         $_SESSION['flash'] = ['type' => 'success', 'message' => 'Mahasiswa berhasil ditambahkan'];
-        $this->redirect('/acara10/si-akademik/public/mahasiswa');
+        $this->redirect('/bkpm/acara10/si-akademik/public/mahasiswa');
     }
 
     public function show(int $id): void
@@ -67,7 +67,7 @@ class MahasiswaController extends BaseController
         echo "<p>" . htmlspecialchars("{$mhs['nim']} - {$mhs['nama']} ({$mhs['prodi']})") . "</p>";
         echo "<p>Email: " . htmlspecialchars($mhs['email']) . "</p>";
         echo "<p>Angkatan: " . htmlspecialchars($mhs['angkatan']) . "</p>";
-        echo "<a href='/acara10/si-akademik/public/mahasiswa'>Kembali</a>";
+        echo "<a href='/bkpm/acara10/si-akademik/public/mahasiswa'>Kembali</a>";
     }
 
     public function edit(int $id): void
@@ -92,14 +92,14 @@ class MahasiswaController extends BaseController
             $this->repo->update($mhs);
         } catch (InvalidArgumentException $e) {
             $_SESSION['flash'] = ['type' => 'danger', 'message' => $e->getMessage()];
-            $this->redirect("/acara10/si-akademik/public/mahasiswa/{$id}/edit");
+            $this->redirect("/bkpm/acara10/si-akademik/public/mahasiswa/{$id}/edit");
         } catch (PDOException $e) {
             $_SESSION['flash'] = ['type' => 'danger', 'message' => 'Gagal mengubah: NIM sudah dipakai'];
-            $this->redirect("/acara10/si-akademik/public/mahasiswa/{$id}/edit");
+            $this->redirect("/bkpm/acara10/si-akademik/public/mahasiswa/{$id}/edit");
         }
 
         $_SESSION['flash'] = ['type' => 'success', 'message' => 'Data mahasiswa berhasil diubah'];
-        $this->redirect('/acara10/si-akademik/public/mahasiswa');
+        $this->redirect('/bkpm/acara10/si-akademik/public/mahasiswa');
     }
 
     public function destroy(int $id): void
@@ -107,7 +107,7 @@ class MahasiswaController extends BaseController
         $this->repo->delete($id);
 
         $_SESSION['flash'] = ['type' => 'success', 'message' => 'Data mahasiswa berhasil dihapus'];
-        $this->redirect('/acara10/si-akademik/public/mahasiswa');
+        $this->redirect('/bkpm/acara10/si-akademik/public/mahasiswa');
     }
 
     // Membuat objek Mahasiswa dari input form.

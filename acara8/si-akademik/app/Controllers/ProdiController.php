@@ -29,7 +29,7 @@ class ProdiController
 
         if ($data['kode'] === '' || $data['nama'] === '') {
             $_SESSION['flash'] = ['type' => 'danger', 'message' => 'Kode dan nama prodi wajib diisi'];
-            header('Location: /acara8/si-akademik/public/prodi/create');
+            header('Location: /bkpm/acara8/si-akademik/public/prodi/create');
             exit;
         }
 
@@ -37,12 +37,12 @@ class ProdiController
             (new ProdiModel())->create($data);
         } catch (PDOException $e) {
             $_SESSION['flash'] = ['type' => 'danger', 'message' => 'Gagal menyimpan: kode prodi sudah dipakai'];
-            header('Location: /acara8/si-akademik/public/prodi/create');
+            header('Location: /bkpm/acara8/si-akademik/public/prodi/create');
             exit;
         }
 
         $_SESSION['flash'] = ['type' => 'success', 'message' => 'Prodi berhasil ditambahkan'];
-        header('Location: /acara8/si-akademik/public/prodi');
+        header('Location: /bkpm/acara8/si-akademik/public/prodi');
         exit;
     }
 
@@ -66,7 +66,7 @@ class ProdiController
 
         if ($data['kode'] === '' || $data['nama'] === '') {
             $_SESSION['flash'] = ['type' => 'danger', 'message' => 'Kode dan nama prodi wajib diisi'];
-            header("Location: /acara8/si-akademik/public/prodi/{$id}/edit");
+            header("Location: /bkpm/acara8/si-akademik/public/prodi/{$id}/edit");
             exit;
         }
 
@@ -74,12 +74,12 @@ class ProdiController
             (new ProdiModel())->update($id, $data);
         } catch (PDOException $e) {
             $_SESSION['flash'] = ['type' => 'danger', 'message' => 'Gagal mengubah: kode prodi sudah dipakai'];
-            header("Location: /acara8/si-akademik/public/prodi/{$id}/edit");
+            header("Location: /bkpm/acara8/si-akademik/public/prodi/{$id}/edit");
             exit;
         }
 
         $_SESSION['flash'] = ['type' => 'success', 'message' => 'Prodi berhasil diubah'];
-        header('Location: /acara8/si-akademik/public/prodi');
+        header('Location: /bkpm/acara8/si-akademik/public/prodi');
         exit;
     }
 
@@ -93,7 +93,7 @@ class ProdiController
             $_SESSION['flash'] = ['type' => 'danger', 'message' => 'Prodi tidak dapat dihapus karena masih dipakai'];
         }
 
-        header('Location: /acara8/si-akademik/public/prodi');
+        header('Location: /bkpm/acara8/si-akademik/public/prodi');
         exit;
     }
 

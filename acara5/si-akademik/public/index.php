@@ -8,7 +8,7 @@ use App\Controllers\MahasiswaController;
 
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
-$base = '/acara5/si-akademik/public';
+$base = '/bkpm/acara5/si-akademik/public';
 if (str_starts_with($uri, $base)) {
     $uri = substr($uri, strlen($base)) ?: '/';
 }

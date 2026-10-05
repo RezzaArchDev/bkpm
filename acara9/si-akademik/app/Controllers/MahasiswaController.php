@@ -44,16 +44,16 @@ class MahasiswaController
             $this->repo->create($mhs);
         } catch (InvalidArgumentException $e) {
             $_SESSION['flash'] = ['type' => 'danger', 'message' => $e->getMessage()];
-            header('Location: /acara9/si-akademik/public/mahasiswa/create');
+            header('Location: /bkpm/acara9/si-akademik/public/mahasiswa/create');
             exit;
         } catch (PDOException $e) {
             $_SESSION['flash'] = ['type' => 'danger', 'message' => 'Gagal menyimpan: NIM sudah terdaftar'];
-            header('Location: /acara9/si-akademik/public/mahasiswa/create');
+            header('Location: /bkpm/acara9/si-akademik/public/mahasiswa/create');
             exit;
         }
 
         $_SESSION['flash'] = ['type' => 'success', 'message' => 'Mahasiswa berhasil ditambahkan'];
-        header('Location: /acara9/si-akademik/public/mahasiswa');
+        header('Location: /bkpm/acara9/si-akademik/public/mahasiswa');
         exit;
     }
 
@@ -71,7 +71,7 @@ class MahasiswaController
         echo "<p>" . htmlspecialchars("{$mhs['nim']} - {$mhs['nama']} ({$mhs['prodi']})") . "</p>";
         echo "<p>Email: " . htmlspecialchars($mhs['email']) . "</p>";
         echo "<p>Angkatan: " . htmlspecialchars($mhs['angkatan']) . "</p>";
-        echo "<a href='/acara9/si-akademik/public/mahasiswa'>Kembali</a>";
+        echo "<a href='/bkpm/acara9/si-akademik/public/mahasiswa'>Kembali</a>";
     }
 
     public function edit(int $id): void
@@ -97,16 +97,16 @@ class MahasiswaController
             $this->repo->update($mhs);
         } catch (InvalidArgumentException $e) {
             $_SESSION['flash'] = ['type' => 'danger', 'message' => $e->getMessage()];
-            header("Location: /acara9/si-akademik/public/mahasiswa/{$id}/edit");
+            header("Location: /bkpm/acara9/si-akademik/public/mahasiswa/{$id}/edit");
             exit;
         } catch (PDOException $e) {
             $_SESSION['flash'] = ['type' => 'danger', 'message' => 'Gagal mengubah: NIM sudah dipakai'];
-            header("Location: /acara9/si-akademik/public/mahasiswa/{$id}/edit");
+            header("Location: /bkpm/acara9/si-akademik/public/mahasiswa/{$id}/edit");
             exit;
         }
 
         $_SESSION['flash'] = ['type' => 'success', 'message' => 'Data mahasiswa berhasil diubah'];
-        header('Location: /acara9/si-akademik/public/mahasiswa');
+        header('Location: /bkpm/acara9/si-akademik/public/mahasiswa');
         exit;
     }
 
@@ -115,7 +115,7 @@ class MahasiswaController
         $this->repo->delete($id);
 
         $_SESSION['flash'] = ['type' => 'success', 'message' => 'Data mahasiswa berhasil dihapus'];
-        header('Location: /acara9/si-akademik/public/mahasiswa');
+        header('Location: /bkpm/acara9/si-akademik/public/mahasiswa');
         exit;
     }
 

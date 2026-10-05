@@ -36,7 +36,7 @@ class MahasiswaController
 
         if ($data['nim'] === '' || $data['nama'] === '' || $data['prodi_id'] < 1) {
             $_SESSION['flash'] = ['type' => 'danger', 'message' => 'NIM, nama, dan prodi wajib diisi'];
-            header('Location: /acara8/si-akademik/public/mahasiswa/create');
+            header('Location: /bkpm/acara8/si-akademik/public/mahasiswa/create');
             exit;
         }
 
@@ -44,12 +44,12 @@ class MahasiswaController
             (new MahasiswaModel())->create($data);
         } catch (PDOException $e) {
             $_SESSION['flash'] = ['type' => 'danger', 'message' => 'Gagal menyimpan: NIM sudah terdaftar'];
-            header('Location: /acara8/si-akademik/public/mahasiswa/create');
+            header('Location: /bkpm/acara8/si-akademik/public/mahasiswa/create');
             exit;
         }
 
         $_SESSION['flash'] = ['type' => 'success', 'message' => 'Mahasiswa berhasil ditambahkan'];
-        header('Location: /acara8/si-akademik/public/mahasiswa');
+        header('Location: /bkpm/acara8/si-akademik/public/mahasiswa');
         exit;
     }
 
@@ -67,7 +67,7 @@ class MahasiswaController
         echo "<p>" . htmlspecialchars("{$mhs['nim']} - {$mhs['nama']} ({$mhs['prodi']})") . "</p>";
         echo "<p>Email: " . htmlspecialchars($mhs['email']) . "</p>";
         echo "<p>Angkatan: " . htmlspecialchars($mhs['angkatan']) . "</p>";
-        echo "<a href='/acara8/si-akademik/public/mahasiswa'>Kembali</a>";
+        echo "<a href='/bkpm/acara8/si-akademik/public/mahasiswa'>Kembali</a>";
     }
 
     public function edit(int $id): void
@@ -92,7 +92,7 @@ class MahasiswaController
 
         if ($data['nim'] === '' || $data['nama'] === '' || $data['prodi_id'] < 1) {
             $_SESSION['flash'] = ['type' => 'danger', 'message' => 'NIM, nama, dan prodi wajib diisi'];
-            header("Location: /acara8/si-akademik/public/mahasiswa/{$id}/edit");
+            header("Location: /bkpm/acara8/si-akademik/public/mahasiswa/{$id}/edit");
             exit;
         }
 
@@ -100,12 +100,12 @@ class MahasiswaController
             (new MahasiswaModel())->update($id, $data);
         } catch (PDOException $e) {
             $_SESSION['flash'] = ['type' => 'danger', 'message' => 'Gagal mengubah: NIM sudah dipakai'];
-            header("Location: /acara8/si-akademik/public/mahasiswa/{$id}/edit");
+            header("Location: /bkpm/acara8/si-akademik/public/mahasiswa/{$id}/edit");
             exit;
         }
 
         $_SESSION['flash'] = ['type' => 'success', 'message' => 'Data mahasiswa berhasil diubah'];
-        header('Location: /acara8/si-akademik/public/mahasiswa');
+        header('Location: /bkpm/acara8/si-akademik/public/mahasiswa');
         exit;
     }
 
@@ -114,7 +114,7 @@ class MahasiswaController
         (new MahasiswaModel())->delete($id);
 
         $_SESSION['flash'] = ['type' => 'success', 'message' => 'Data mahasiswa berhasil dihapus'];
-        header('Location: /acara8/si-akademik/public/mahasiswa');
+        header('Location: /bkpm/acara8/si-akademik/public/mahasiswa');
         exit;
     }
 

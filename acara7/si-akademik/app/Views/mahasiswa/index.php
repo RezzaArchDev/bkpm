@@ -24,7 +24,7 @@
                 <td><?= htmlspecialchars($mhs['angkatan']) ?></td>
                 <?php $warna = ['aktif' => 'success', 'cuti' => 'warning', 'lulus' => 'primary'][$mhs['status']] ?? 'secondary'; ?>
                 <td><span class="badge bg-<?= $warna ?>"><?= htmlspecialchars($mhs['status']) ?></span></td>
-                <td><a href="/acara7/si-akademik/public/mahasiswa/<?= $mhs['id'] ?>" class="btn btn-sm btn-info">Detail</a></td>
+                <td><a href="/bkpm/acara7/si-akademik/public/mahasiswa/<?= $mhs['id'] ?>" class="btn btn-sm btn-info">Detail</a></td>
             </tr>
         <?php endforeach; ?>
     </tbody>

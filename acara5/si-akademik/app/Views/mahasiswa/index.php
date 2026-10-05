@@ -22,7 +22,7 @@
                 <td><?= htmlspecialchars($mhs->getAngkatan()) ?></td>
                 <td><?= htmlspecialchars($mhs->getLabel()) ?></td>
                 <!-- ===== TUGAS MANDIRI ===== -->
-                <td><a href="/acara5/si-akademik/public/mahasiswa/<?= $i + 1 ?>" class="btn btn-sm btn-info">Detail</a></td>
+                <td><a href="/bkpm/acara5/si-akademik/public/mahasiswa/<?= $i + 1 ?>" class="btn btn-sm btn-info">Detail</a></td>
             </tr>
         <?php endforeach; ?>
     </tbody>

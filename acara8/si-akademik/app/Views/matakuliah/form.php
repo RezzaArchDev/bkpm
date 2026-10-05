@@ -1,8 +1,8 @@
 <?php
 $isEdit = $mk !== null;
 $action = $isEdit
-    ? "/acara8/si-akademik/public/matakuliah/{$mk['id']}/update"
-    : "/acara8/si-akademik/public/matakuliah";
+    ? "/bkpm/acara8/si-akademik/public/matakuliah/{$mk['id']}/update"
+    : "/bkpm/acara8/si-akademik/public/matakuliah";
 ?>
 <h5 class="mb-3"><?= $isEdit ? 'Edit' : 'Tambah' ?> Mata Kuliah</h5>
 
@@ -31,5 +31,5 @@ $action = $isEdit
         </select>
     </div>
     <button type="submit" class="btn btn-primary">Simpan</button>
-    <a href="/acara8/si-akademik/public/matakuliah" class="btn btn-secondary">Batal</a>
+    <a href="/bkpm/acara8/si-akademik/public/matakuliah" class="btn btn-secondary">Batal</a>
 </form>

@@ -21,7 +21,7 @@
                 <td><?= htmlspecialchars($mhs->getProdi()) ?></td>
                 <td><?= htmlspecialchars($mhs->getAngkatan()) ?></td>
                 <td><?= htmlspecialchars($mhs->getLabel()) ?></td>
-                <td><a href="/acara6/si-akademik/public/mahasiswa/<?= $i + 1 ?>" class="btn btn-sm btn-info">Detail</a></td>
+                <td><a href="/bkpm/acara6/si-akademik/public/mahasiswa/<?= $i + 1 ?>" class="btn btn-sm btn-info">Detail</a></td>
             </tr>
         <?php endforeach; ?>
     </tbody>
