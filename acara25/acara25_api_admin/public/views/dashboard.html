@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Dashboard</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 900px; margin: 24px auto; padding: 0 16px; }
+        header { display: flex; justify-content: space-between; align-items: center; }
+        .kartu { border: 1px solid #ccc; border-radius: 8px; padding: 12px 16px; margin: 16px 0; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+        th { background: #f0f0f0; }
+        input { padding: 6px; margin-right: 6px; }
+        button { padding: 6px 10px; cursor: pointer; }
+        #status { color: #555; font-style: italic; }
+        .role-user .hanya-admin { display: none; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Dashboard</h1>
+        <div>
+            <span id="info-user"></span>
+            <button id="btn-logout">Logout</button>
+        </div>
+    </header>
+
+    <div class="kartu">Total mahasiswa: <strong id="total">-</strong></div>
+
+    <div class="kartu hanya-admin">
+        <h3 id="judul-form">Tambah Mahasiswa</h3>
+        <input id="nim" placeholder="NIM (9 digit angka)">
+        <input id="nama" placeholder="Nama">
+        <input id="prodi" placeholder="Program studi">
+        <button id="btn-simpan">Tambah</button>
+        <button id="btn-batal" hidden>Batal</button>
+    </div>
+
+    <p id="status"></p>
+    <table id="tabel-mahasiswa">
+        <thead>
+            <tr>
+                <th>No</th><th>NIM</th><th>Nama</th><th>Program Studi</th>
+                <th class="hanya-admin">Aksi</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <script src="dashboard.js"></script>
+</body>
+</html> 

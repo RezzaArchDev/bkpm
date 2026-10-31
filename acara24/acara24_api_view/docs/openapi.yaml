@@ -1,0 +1,296 @@
+openapi: 3.0.0
+info:
+  title: API Sistem Informasi Akademik (MVC)
+  description: 'REST API native PHP (MVC) untuk autentikasi dan pengelolaan data mahasiswa. Endpoint tulis (POST, PUT, DELETE) pada /mahasiswa memerlukan Bearer Token JWT.'
+  version: 1.0.0
+servers:
+  - url: http://localhost/bkpm/acara24/acara23_api_view/public
+    description: Server lokal (XAMPP)
+tags:
+  - name: Autentikasi
+    description: Registrasi dan login pengguna (AuthController)
+  - name: Mahasiswa
+    description: CRUD data mahasiswa (MahasiswaController)
+paths:
+  /register:
+    post:
+      tags: [Autentikasi]
+      summary: 'Registrasi pengguna baru (AuthController::register)'
+      description: 'Endpoint publik. Password disimpan dalam bentuk hash dan role selalu bernilai user.'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [username, email, password]
+              properties:
+                username: { type: string, example: budi }
+                email: { type: string, format: email, example: budi@mail.com }
+                password: { type: string, format: password, example: rahasia123 }
+      responses:
+        '201':
+          description: 'Registrasi berhasil'
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ApiResponse' }
+              example:
+                success: true
+                message: Registrasi berhasil
+                data: { id: '1' }
+                errors: []
+                timestamp: '2026-10-21T10:30:00+07:00'
+        '400':
+          description: 'Body bukan JSON valid atau ada field wajib yang kosong'
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ApiResponse' }
+        '409':
+          description: 'Username atau email sudah terdaftar'
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ApiResponse' }
+        '422':
+          description: 'Format email tidak valid'
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ApiResponse' }
+  /login:
+    post:
+      tags: [Autentikasi]
+      summary: 'Autentikasi pengguna (AuthController::login)'
+      description: 'Endpoint publik. Mengembalikan token JWT (HS256) yang berlaku 1 jam.'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [username, password]
+              properties:
+                username: { type: string, example: budi }
+                password: { type: string, format: password, example: rahasia123 }
+      responses:
+        '200':
+          description: 'Login berhasil'
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          token: { type: string, example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...' }
+                          role: { type: string, example: user }
+        '400':
+          description: 'Body bukan JSON valid atau username/password kosong'
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ApiResponse' }
+        '401':
+          description: 'Kredensial tidak valid'
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ApiResponse' }
+              example:
+                success: false
+                message: Username atau password salah
+                data: null
+                errors: []
+                timestamp: '2026-10-21T10:31:00+07:00'
+  /mahasiswa:
+    get:
+      tags: [Mahasiswa]
+      summary: 'Mengambil data mahasiswa (MahasiswaController::index)'
+      description: 'Endpoint publik. Tanpa parameter id mengembalikan semua data, dengan id mengembalikan satu data.'
+      parameters:
+        - name: id
+          in: query
+          required: false
+          description: 'ID mahasiswa (opsional)'
+          schema: { type: integer, minimum: 1 }
+      responses:
+        '200':
+          description: 'Data berhasil diambil (array jika tanpa id, objek jika dengan id)'
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: array
+                        items: { $ref: '#/components/schemas/Mahasiswa' }
+        '400':
+          description: 'Parameter id tidak valid'
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ApiResponse' }
+        '404':
+          description: 'Data mahasiswa tidak ditemukan'
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ApiResponse' }
+    post:
+      tags: [Mahasiswa]
+      summary: 'Menambahkan data mahasiswa (MahasiswaController::store)'
+      description: 'Memerlukan header Authorization Bearer token.'
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/MahasiswaInput' }
+      responses:
+        '201':
+          description: 'Data berhasil ditambahkan'
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ApiResponse' }
+              example:
+                success: true
+                message: Data mahasiswa berhasil ditambahkan
+                data: { id: '5' }
+                errors: []
+                timestamp: '2026-10-21T19:12:00+07:00'
+        '400':
+          description: 'Body bukan JSON valid atau field wajib kosong'
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ApiResponse' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '409':
+          description: 'NIM sudah digunakan'
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ApiResponse' }
+        '422':
+          description: 'Format NIM tidak valid (harus 9 karakter)'
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ApiResponse' }
+    put:
+      tags: [Mahasiswa]
+      summary: 'Memperbarui data mahasiswa (MahasiswaController::update)'
+      description: 'Memerlukan header Authorization Bearer token.'
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: query
+          required: true
+          description: 'ID mahasiswa yang diperbarui'
+          schema: { type: integer, minimum: 1 }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/MahasiswaInput' }
+      responses:
+        '200':
+          description: 'Data berhasil diperbarui'
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ApiResponse' }
+        '400':
+          description: 'ID tidak valid, body bukan JSON valid, atau field wajib kosong'
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ApiResponse' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '404':
+          description: 'Data mahasiswa tidak ditemukan'
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ApiResponse' }
+        '409':
+          description: 'NIM sudah digunakan mahasiswa lain'
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ApiResponse' }
+        '422':
+          description: 'Format NIM tidak valid'
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ApiResponse' }
+    delete:
+      tags: [Mahasiswa]
+      summary: 'Menghapus data mahasiswa (MahasiswaController::destroy)'
+      description: 'Memerlukan header Authorization Bearer token.'
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: query
+          required: true
+          description: 'ID mahasiswa yang dihapus'
+          schema: { type: integer, minimum: 1 }
+      responses:
+        '200':
+          description: 'Data berhasil dihapus'
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ApiResponse' }
+        '400':
+          description: 'ID tidak valid'
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ApiResponse' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '404':
+          description: 'Data mahasiswa tidak ditemukan'
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ApiResponse' }
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  responses:
+    Unauthorized:
+      description: 'Token tidak ditemukan, tidak valid, atau kedaluwarsa'
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/ApiResponse' }
+          example:
+            success: false
+            message: Token tidak ditemukan
+            data: null
+            errors: []
+            timestamp: '2026-10-21T19:15:00+07:00'
+  schemas:
+    ApiResponse:
+      type: object
+      properties:
+        success: { type: boolean }
+        message: { type: string }
+        data:
+          nullable: true
+          description: 'Berisi data hasil request, atau null jika tidak ada'
+        errors:
+          type: object
+          description: 'Pesan kesalahan per field. Berupa array kosong jika tidak ada kesalahan'
+          additionalProperties: { type: string }
+        timestamp: { type: string, format: date-time }
+    Mahasiswa:
+      type: object
+      properties:
+        id: { type: integer, example: 1 }
+        nim: { type: string, example: '230100123' }
+        nama: { type: string, example: Budi Santoso }
+        prodi: { type: string, example: Teknik Informatika }
+        created_at: { type: string, example: '2026-10-21 09:45:29' }
+    MahasiswaInput:
+      type: object
+      required: [nim, nama, prodi]
+      properties:
+        nim: { type: string, minLength: 9, maxLength: 9, example: '230100123' }
+        nama: { type: string, example: Budi Santoso }
+        prodi: { type: string, example: Teknik Informatika }
