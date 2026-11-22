@@ -1,5 +1,5 @@
 // Ganti alamat ini sesuai nama folder proyekmu
-const BASE_URL = 'http://localhost/bkpm/acara27/acara27_api_form/public';
+const BASE_URL = 'https://archdev.my.id';
 
 // Mengamankan teks dari database sebelum dimasukkan ke HTML (mencegah XSS)
 function esc(teks) {
