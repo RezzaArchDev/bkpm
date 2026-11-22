@@ -5,7 +5,7 @@ class MahasiswaController
     private Mahasiswa $model;
 
     // Folder penyimpanan foto (di dalam public/ agar bisa diakses browser)
-    private const FOLDER_UPLOAD = __DIR__ . '/../../public/uploads/';
+    private const FOLDER_UPLOAD = __DIR__ . '/../../public_html/uploads/';
 
     public function __construct()
     {

@@ -4,11 +4,15 @@ async function muatDataMahasiswa() {
     const status = document.getElementById('status');
     const tbody = document.querySelector('#tabel-mahasiswa tbody');
 
+    // Indikator loading
     status.textContent = 'Memuat data...';
     tbody.innerHTML = '';
 
     try {
-        const res = await fetch(`${BASE_URL}/mahasiswa`);
+        const res = await fetchRetry(`${BASE_URL}/mahasiswa`);
+        if (!res.ok) {
+            throw new Error('Server merespons dengan status ' + res.status);
+        }
         const hasil = await res.json();
 
         if (!hasil.success) {
@@ -24,6 +28,7 @@ async function muatDataMahasiswa() {
         }
 
         status.textContent = '';
+        // Semua data dinamis dibungkus escapeHTML agar aman dari XSS
         tbody.innerHTML = data.map((m, i) => `
             <tr>
                 <td>${i + 1}</td>
@@ -44,10 +49,6 @@ async function muatDataMahasiswa() {
 }
 
 async function hapusData(id) {
-    if (!confirm('Hapus data ini?')) {
-        return;
-    }
-
     // diteruskan Router ke MahasiswaController::destroy($id)
     const hasil = await panggilApi(`/mahasiswa?id=${encodeURIComponent(id)}`, { method: 'DELETE' });
 
@@ -65,7 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.getElementById('info-user').textContent = `Login sebagai: ${role}`;
 
-    // Acara 25 tugas 2: sembunyikan tombol pengelolaan untuk role user
+    // Sembunyikan tombol pengelolaan untuk role user
     if (role !== 'admin') {
         document.body.classList.add('role-user');
     }
@@ -79,7 +80,11 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelector('#tabel-mahasiswa tbody').addEventListener('click', (e) => {
         const tombol = e.target.closest('button');
         if (tombol && tombol.dataset.aksi === 'hapus') {
-            hapusData(tombol.dataset.id);
+            // Konfirmasi dulu, baru tombol dinonaktifkan selama proses hapus
+            if (!confirm('Hapus data ini?')) {
+                return;
+            }
+            denganLoading(tombol, 'Menghapus...', () => hapusData(tombol.dataset.id));
         }
     });
 

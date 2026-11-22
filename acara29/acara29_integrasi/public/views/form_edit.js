@@ -2,7 +2,7 @@ const id = new URLSearchParams(window.location.search).get('id');
 
 async function muatDataUntukEdit(id) {
     try {
-        const res = await fetch(`${BASE_URL}/mahasiswa?id=${encodeURIComponent(id)}`);
+        const res = await fetchRetry(`${BASE_URL}/mahasiswa?id=${encodeURIComponent(id)}`);
         const hasil = await res.json();
 
         if (!hasil.success) {
@@ -10,6 +10,7 @@ async function muatDataUntukEdit(id) {
             return;
         }
 
+        // Nilai input diisi lewat .value (aman, tidak dieksekusi sebagai HTML)
         document.getElementById('nim').value = hasil.data.nim;
         document.getElementById('nama').value = hasil.data.nama;
         document.getElementById('prodi').value = hasil.data.prodi;
@@ -29,7 +30,7 @@ async function simpanPerubahan(id) {
     const prodi = document.getElementById('prodi').value.trim();
     const foto = document.getElementById('foto').files[0];
 
-    // Tugas 2: validasi sisi View sebelum data dikirim ke Controller
+    // Validasi sisi View sebelum data dikirim ke Controller
     const kosong = [];
     if (nim === '') kosong.push('NIM');
     if (nama === '') kosong.push('Nama');
@@ -73,6 +74,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.getElementById('form-edit').addEventListener('submit', (e) => {
         e.preventDefault();
-        simpanPerubahan(id);
+        // Tombol nonaktif selama data dikirim, aktif lagi di blok finally
+        denganLoading(e.submitter, 'Menyimpan...', () => simpanPerubahan(id));
     });
 });

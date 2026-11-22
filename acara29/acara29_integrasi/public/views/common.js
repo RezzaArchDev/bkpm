@@ -1,4 +1,4 @@
-// Ganti alamat ini sesuai nama folder proyekmu
+// Alamat API di hosting (tanpa garis miring di akhir)
 const BASE_URL = 'https://archdev.my.id';
 
 // Mengamankan teks dari database sebelum dimasukkan ke HTML (mencegah XSS)
@@ -8,7 +8,7 @@ function escapeHTML(teks) {
     return el.innerHTML;
 }
 
-// Tugas 1: notifikasi visual untuk operasi berhasil maupun gagal
+// Notifikasi visual untuk operasi berhasil maupun gagal
 function tampilNotif(pesan, jenis = 'sukses') {
     let kotak = document.getElementById('notif');
     if (!kotak) {
@@ -32,6 +32,37 @@ function pesanError(hasil, status) {
     return teks;
 }
 
+// ACARA 29 - Tugas mandiri 2: retry otomatis SATU kali.
+async function fetchRetry(url, opsi = {}, boleh = null) {
+    const method = (opsi.method || 'GET').toUpperCase();
+    const bolehUlang = boleh !== null ? boleh : (method === 'GET' || method === 'HEAD');
+
+    try {
+        return await fetch(url, opsi);
+    } catch (error) {
+        if (!bolehUlang) {
+            throw error;
+        }
+        await new Promise((r) => setTimeout(r, 800)); // jeda sebentar
+        return await fetch(url, opsi);                // percobaan kedua (terakhir)
+    }
+}
+
+// ACARA 29 - Langkah 3: pola try-catch-finally untuk tombol.
+async function denganLoading(tombol, teksLoading, fungsi) {
+    const teksAsli = tombol.textContent;
+    tombol.disabled = true;
+    tombol.textContent = teksLoading;
+    try {
+        await fungsi();
+    } catch (error) {
+        tampilNotif('Terjadi kesalahan: ' + error.message, 'gagal');
+    } finally {
+        tombol.disabled = false;
+        tombol.textContent = teksAsli;
+    }
+}
+
 // Pemanggil API ber-token. Mendukung JSON maupun FormData.
 // Mengembalikan hasil JSON jika berhasil, atau null jika gagal (notifikasi sudah ditampilkan).
 async function panggilApi(path, opsi = {}) {
@@ -43,7 +74,7 @@ async function panggilApi(path, opsi = {}) {
     }
 
     try {
-        const res = await fetch(`${BASE_URL}${path}`, { ...opsi, headers });
+        const res = await fetchRetry(`${BASE_URL}${path}`, { ...opsi, headers });
         const hasil = await res.json();
 
         if (res.status === 401) {
