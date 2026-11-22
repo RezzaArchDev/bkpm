@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Ubah Mahasiswa</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Ubah Mahasiswa</h1>
+    <form id="form-edit" novalidate>
+        <p><label>NIM<br><input id="nim"></label></p>
+        <p><label>Nama<br><input id="nama"></label></p>
+        <p><label>Program studi<br><input id="prodi"></label></p>
+        <div id="foto-lama"></div>
+        <p><label>Ganti foto (kosongkan jika tidak diganti)<br><input id="foto" type="file" accept="image/png, image/jpeg"></label></p>
+        <button type="submit">Simpan Perubahan</button>
+        <a href="dashboard.html">Kembali</a>
+    </form>
+
+    <script src="common.js"></script>
+    <script src="form_edit.js"></script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Dashboard</h1>
+        <div>
+            <span id="info-user"></span>
+            <button id="btn-logout">Logout</button>
+        </div>
+    </header>
+
+    <div class="kartu">Total mahasiswa: <strong id="total">-</strong></div>
+
+    <p class="hanya-admin"><a class="tombol" href="form_tambah.html">+ Tambah Mahasiswa</a></p>
+
+    <p id="status"></p>
+    <table id="tabel-mahasiswa">
+        <thead>
+            <tr>
+                <th>No</th><th>Foto</th><th>NIM</th><th>Nama</th><th>Program Studi</th>
+                <th class="hanya-admin">Aksi</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <script src="common.js"></script>
+    <script src="dashboard.js"></script>
+</body>
+</html>
